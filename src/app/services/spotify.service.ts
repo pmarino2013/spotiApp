@@ -8,28 +8,25 @@ import { map } from 'rxjs/operators';
 export class SpotifyService {
   constructor(private http: HttpClient) {}
 
-  getNewReleases() {
+  //Función para manejar la peticion a Spotify
+  getQuery(query: string) {
+    let url = `https://api.spotify.com/v1/${query}`;
     const headers = new HttpHeaders({
       Authorization:
-        'Bearer BQAn494L7kqr52gYgJjNuuXWwYjpeuy-GPyZT-oE9HgYOjMWNNQoXoCr-SaZDFBxt-DCKmRziREQKsnIGug',
+        'Bearer BQDJxwiITxUtt0Fi5GT77t-CQgSZbADsaNk6ju9JqE6Q_quYy7bLyhRyKESIaP-CedeQlxMPl0gO13nVkto',
     });
+    return this.http.get(url, { headers });
+  }
 
-    return this.http
-      .get('https://api.spotify.com/v1/browse/new-releases', { headers })
-      .pipe(map((data: any) => data.albums.items));
+  getNewReleases() {
+    return this.getQuery('browse/new-releases').pipe(
+      map((data: any) => data.albums.items)
+    );
   }
 
   getArtista(termino: string) {
-    const headers = new HttpHeaders({
-      Authorization:
-        'Bearer BQAn494L7kqr52gYgJjNuuXWwYjpeuy-GPyZT-oE9HgYOjMWNNQoXoCr-SaZDFBxt-DCKmRziREQKsnIGug',
-    });
-
-    return this.http
-      .get(
-        `https://api.spotify.com/v1/search?q=${termino}&type=artist&limit=15`,
-        { headers }
-      )
-      .pipe(map((data: any) => data.artists.items));
+    return this.getQuery(`search?q=${termino}&type=artist&limit=15`).pipe(
+      map((data: any) => data.artists.items)
+    );
   }
 }
