@@ -7,16 +7,27 @@ import { SpotifyService } from '../../services/spotify.service';
 })
 export class HomeComponent implements OnInit {
   nuevasCanciones: any[] = [];
-
   loading: boolean;
+  token: any = {};
+  error: boolean = false;
+  message: string = '';
 
   constructor(private spotifyService: SpotifyService) {
     this.loading = true;
-    this.spotifyService.getNewReleases().subscribe((data: any) => {
-      setTimeout(() => {
-        this.nuevasCanciones = data;
-        this.loading = false;
-      }, 3000);
+
+    this.spotifyService.getToken().subscribe((data) => {
+      this.token = data;
+      this.spotifyService.getNewReleases(this.token.access_token).subscribe(
+        (data: any) => {
+          this.nuevasCanciones = data;
+          this.loading = false;
+        },
+        (err: any) => {
+          this.loading = false;
+          this.error = true;
+          this.message = err.error.error.message;
+        }
+      );
     });
   }
 

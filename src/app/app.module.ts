@@ -14,6 +14,7 @@ import { PaisesComponent } from './components/paises/paises.component';
 
 //PIPES
 import { NoimagenPipe } from './pipes/noimagen.pipe';
+import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { TarjetasComponent } from './components/tarjetas/tarjetas.component';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 
@@ -26,6 +27,7 @@ import { LoadingComponent } from './components/shared/loading/loading.component'
     NavbarComponent,
     PaisesComponent,
     NoimagenPipe,
+    DomseguroPipe,
     TarjetasComponent,
     LoadingComponent,
   ],
